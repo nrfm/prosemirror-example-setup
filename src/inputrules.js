@@ -28,7 +28,21 @@ export function bulletListRule(nodeType) {
 // Given a code block node type, returns an input rule that turns a
 // textblock starting with three backticks into a code block.
 export function codeBlockRule(nodeType) {
-  return textblockTypeInputRule(/^```$/, nodeType)
+  return textblockTypeInputRule(/^```$/, nodeType, match =>
+      {
+
+
+    return {params: "no-render"}
+})
+}
+
+export function codeBlockRenderRule(nodeType) {
+    return textblockTypeInputRule(/^``\+$/, nodeType, match =>
+        {
+
+
+        return {params: "render"}
+        })
 }
 
 // : (NodeType, number) → InputRule
@@ -50,6 +64,7 @@ export function buildInputRules(schema) {
   if (type = schema.nodes.ordered_list) rules.push(orderedListRule(type))
   if (type = schema.nodes.bullet_list) rules.push(bulletListRule(type))
   if (type = schema.nodes.code_block) rules.push(codeBlockRule(type))
+  if (type = schema.nodes.code_block) rules.push(codeBlockRenderRule(type))
   if (type = schema.nodes.heading) rules.push(headingRule(type, 6))
   return inputRules({rules})
 }

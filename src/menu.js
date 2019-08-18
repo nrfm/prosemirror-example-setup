@@ -196,8 +196,15 @@ export function buildMenuItems(schema) {
   if (type = schema.nodes.code_block)
     r.makeCodeBlock = blockTypeItem(type, {
       title: "Change to code block",
-      label: "Code"
+      label: "Code",
+        attrs: {params: "no-render"}
     })
+    if (type = schema.nodes.code_block)
+        r.makeCodeBlockRender = blockTypeItem(type, {
+            title: "Change to code block that renders",
+            label: "Code Render",
+            attrs: {params: "render"}
+        })
   if (type = schema.nodes.heading)
     for (let i = 1; i <= 10; i++)
       r["makeHead" + i] = blockTypeItem(type, {
@@ -217,7 +224,7 @@ export function buildMenuItems(schema) {
 
   let cut = arr => arr.filter(x => x)
   r.insertMenu = new Dropdown(cut([r.insertImage, r.insertHorizontalRule]), {label: "Insert"})
-  r.typeMenu = new Dropdown(cut([r.makeParagraph, r.makeCodeBlock, r.makeHead1 && new DropdownSubmenu(cut([
+  r.typeMenu = new Dropdown(cut([r.makeParagraph, r.makeCodeBlock,r.makeCodeBlockRender, r.makeHead1 && new DropdownSubmenu(cut([
     r.makeHead1, r.makeHead2, r.makeHead3, r.makeHead4, r.makeHead5, r.makeHead6
   ]), {label: "Heading"})]), {label: "Type..."})
 
